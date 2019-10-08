@@ -23,7 +23,7 @@ list* freemem(list* A) {
 		A = p;
 	}
 	delete A;
-
+	
 	return NULL;
 }
 
@@ -37,7 +37,7 @@ char strings(int a)
 	case 2: {return 'C'; }
 	case 3: {return 'D'; }
 	}
-
+	
 }
 
 list* input(list* A, int b)
