@@ -16,7 +16,7 @@ struct list
 char strings(int a); //вспомогательная функция для вывода наименования множества
 list* input(int b); //функция ввода массива
 void incorrect(); //функция для сообщения об ошибке ввода
-list* arrtolist(int* spisok, int b); //функция перевода массива в список
+list* arrtolist(int* spisok, int b, bool c); //функция перевода массива в список
 list* check(list* A, list* C, list *B, list *D); //функция проверки основного условия
 int* check_01(int* spisok, int first, int second, int third); //вспомогательная функция проверки основного условия
 void output(list *E); //функция вывода результата на экран
@@ -88,9 +88,9 @@ list* input(int b)
 	}
 
 
-
+	
 	system("pause");
-	return arrtolist(spisok, a)->head;
+	return arrtolist(spisok, a-1, false)->head;
 }
 
 void incorrect() {
@@ -99,20 +99,21 @@ void incorrect() {
 	cout << "Некорректный ввод! Повторите" << endl;
 }
 
-list* arrtolist(int* spisok, int b) {
+list* arrtolist(int* spisok, int b, bool c) {
 	list* A = NULL;
 	A = new list;
 	A->head = A;
-
-	for (int i = 0; i < b; i++) //заполняем список из массива
-	{ 
+	int i = 0;
+	if (c) 
+		i++;
+	do {
 		A->symbol = spisok[i];
-		if (i != b - 1) {
-			A->next = new list;
-			A->next->head = A->head;
-			A = A->next;
-		}
-	}
+		if (i == b) break;
+		A->next = new list;
+		A->next->head = A->head;
+		A = A->next;
+		i++;
+	} while (i <= b);
 
 	delete spisok;
 	A->next = NULL;
@@ -126,11 +127,12 @@ list* check(list* A, list* C, list *B, list *D)
 
 	int* spisok = NULL; //массив, который потом запишим в множество E(результат)
 
+
 	for (list *frst = A->head, *scnd = C->head; frst, scnd; frst = frst->next, scnd = scnd->next) //делаем цикл сразу по A и C одновременно
 	{
 		x = false;
 		if (spisok) { //если в E у нас уже чето есть то
-			for (int i = 0; i < (_msize(spisok) / sizeof(int)); i++) //сверяем с E
+			for (int i = 1; i < spisok[0]; i++) //сверяем с E
 				if (spisok[i] == frst->symbol || spisok[i] == scnd->symbol) {
 					x = true;
 					break;
@@ -152,36 +154,44 @@ list* check(list* A, list* C, list *B, list *D)
 				}
 		//сюда кста прыгает оператор continue если кто не в курсе да
 	}
-
-	int i = (_msize(spisok) / sizeof(int)) - 1; //получаем длинну массива уродским способом за который мне стыдно
-	spisok = (int*)realloc(spisok, (i - 1) * sizeof(int)); //убераем последний элемент в массиве тк я дыбил и там пустая ячейка
-	return arrtolist(spisok, i + 1)->head;
+	if (spisok) {
+		spisok = (int*)realloc(spisok, (spisok[0]) * sizeof(int)); //убераем последний элемент в массиве тк я дыбил и там пустая ячейка
+		
+		return arrtolist(spisok, spisok[0]-1, true)->head;
+	}
+	return NULL;
 }
 
 int* check_01(int* spisok, int first, int second, int third) {
-	if (!spisok)
-		spisok = new int[1];
-	int i = (_msize(spisok) / sizeof(int)) - 1; //длинна массива а также последний элемент
+	if (!spisok) {
+		spisok = new int[2];
+		spisok[0] = 1; //в 0м элементе храним размер массива
+	}
+	int i = spisok[0]; //длинна массива а также последний элемент
 
 	if (first != second) { //если A и C не равны, то
 		if (first != third && second != third) { //если они оба подходят под условие, то и запихиваем оба
-			spisok = (int*)realloc(spisok, (i + 3) * sizeof(int));
+			spisok = (int*)realloc(spisok, (i + 2) * sizeof(int));
 			spisok[i] = first;
 			spisok[i + 1] = second;
+			spisok[0] = spisok[0] + 2;
 			return spisok;
 		}
-		spisok = (int*)realloc(spisok, (i + 2) * sizeof(int)); //заранее выделяем память под 1 элемент
+		spisok = (int*)realloc(spisok, (i + 1) * sizeof(int)); //заранее выделяем память под 1 элемент
 		if (first != third) { //если только A подходит под условие
 			spisok[i] = first;
+			spisok[0]++;
 			return spisok;
 		}
 		else if (second != third) { //если только C подходит под условие
 			spisok[i] = second;
+			spisok[0]++;
 			return spisok;
 		}
 	}
 	else {
 		spisok[i] = first; //тут нам по барабану че пихать тк A и C равны
+		spisok[0]++;
 		return spisok;
 	}
 }
