@@ -1,4 +1,5 @@
-﻿#include <stdio.h>
+﻿//Сёма пидорас
+#include <stdio.h>
 #include <iostream>
 #include <locale.h>
 using namespace std;
