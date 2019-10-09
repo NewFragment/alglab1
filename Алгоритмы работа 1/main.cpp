@@ -1,4 +1,4 @@
-#include <stdio.h>
+п»ї#include <stdio.h>
 #include <iostream>
 #include <locale.h>
 using namespace std;
@@ -10,16 +10,16 @@ struct list
 	list* head;
 };	
 
-//-----------------------описание функций--------------------
-char strings(int a);//вспомогательная функция для вывода наименования множества
-list* input(int b);//функция ввода массива
-void incorrect();//функция для сообщения об ошибке ввода
-list* arrtolist(int* spisok, int b);//функция перевода массива в список
-list* check(list* A, list* C, list *B, list *D);//функция проверки основного условия
-int* check_01(int* spisok, int first, int second, int third);//вспомогательная функция проверки основного условия
-void output(list *E);//функция вывода результата на экран
-list* freemem(list* A, list* B, list* C, list* D, list* E);//функция очистки памяти
-void freemem_01(list*A);//вспомогательная функция очистки памяти
+//-----------------------РѕРїРёСЃР°РЅРёРµ С„СѓРЅРєС†РёР№--------------------
+char strings(int a);//РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РІС‹РІРѕРґР° РЅР°РёРјРµРЅРѕРІР°РЅРёСЏ РјРЅРѕР¶РµСЃС‚РІР°
+list* input(int b);//С„СѓРЅРєС†РёСЏ РІРІРѕРґР° РјР°СЃСЃРёРІР°
+void incorrect();//С„СѓРЅРєС†РёСЏ РґР»СЏ СЃРѕРѕР±С‰РµРЅРёСЏ РѕР± РѕС€РёР±РєРµ РІРІРѕРґР°
+list* arrtolist(int* spisok, int b);//С„СѓРЅРєС†РёСЏ РїРµСЂРµРІРѕРґР° РјР°СЃСЃРёРІР° РІ СЃРїРёСЃРѕРє
+list* check(list* A, list* C, list *B, list *D);//С„СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё РѕСЃРЅРѕРІРЅРѕРіРѕ СѓСЃР»РѕРІРёСЏ
+int* check_01(int* spisok, int first, int second, int third);//РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅР°СЏ С„СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё РѕСЃРЅРѕРІРЅРѕРіРѕ СѓСЃР»РѕРІРёСЏ
+void output(list *E);//С„СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° СЂРµР·СѓР»СЊС‚Р°С‚Р° РЅР° СЌРєСЂР°РЅ
+list* freemem(list* A, list* B, list* C, list* D, list* E);//С„СѓРЅРєС†РёСЏ РѕС‡РёСЃС‚РєРё РїР°РјСЏС‚Рё
+void freemem_01(list*A);//РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅР°СЏ С„СѓРЅРєС†РёСЏ РѕС‡РёСЃС‚РєРё РїР°РјСЏС‚Рё
 //------------------------------------------------------------
 
 int main()
@@ -57,7 +57,7 @@ list* input(int b)
 {
 	int* spisok = NULL;
 	int a;
-	cout << endl << "Введите количество элементов множества '" << strings(b) << "' (от 0 до 16):";
+	cout << endl << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РјРЅРѕР¶РµСЃС‚РІР° '" << strings(b) << "' (РѕС‚ 0 РґРѕ 16):";
 	do
 	{
 		if (cin >> a && a >= 1 && a <= 16) break;
@@ -65,7 +65,7 @@ list* input(int b)
 		{
 			if (a == 0)
 			{
-				cout << "Вы ввели пустое множество '" << strings(b) << "' !" << endl;
+				cout << "Р’С‹ РІРІРµР»Рё РїСѓСЃС‚РѕРµ РјРЅРѕР¶РµСЃС‚РІРѕ '" << strings(b) << "' !" << endl;
 				system("pause");
 				return NULL;
 			}
@@ -75,9 +75,9 @@ list* input(int b)
 
 	spisok = new int[a];
 
-	for (int i = 0; i < a; i++) { //вводим массив
+	for (int i = 0; i < a; i++) { //РІРІРѕРґРёРј РјР°СЃСЃРёРІ
 		do {
-			cout << endl << "Введите значение для множества '" << strings(b) << "' в 16СС: ";
+			cout << endl << "Р’РІРµРґРёС‚Рµ Р·РЅР°С‡РµРЅРёРµ РґР»СЏ РјРЅРѕР¶РµСЃС‚РІР° '" << strings(b) << "' РІ 16РЎРЎ: ";
 			if (!(cin >> hex >> spisok[i]))
 				incorrect();
 			else break;
@@ -94,7 +94,7 @@ list* input(int b)
 void incorrect() {
 	cin.clear();
 	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	cout << "Некорректный ввод! Повторите" << endl;
+	cout << "РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ РІРІРѕРґ! РџРѕРІС‚РѕСЂРёС‚Рµ" << endl;
 }
 
 list* arrtolist(int* spisok, int b) {
@@ -102,7 +102,7 @@ list* arrtolist(int* spisok, int b) {
 	A = new list;
 	A->head = A;
 
-	for (int i = 0; i < b; i++) //заполняем список из массива
+	for (int i = 0; i < b; i++) //Р·Р°РїРѕР»РЅСЏРµРј СЃРїРёСЃРѕРє РёР· РјР°СЃСЃРёРІР°
 	{ 
 		A->symbol = spisok[i];
 		if (i != b - 1) {
@@ -123,63 +123,63 @@ list* check(list* A, list* C, list *B, list *D)
 	bool x = false;
 	if (!A || !C) return E;
 
-	int* spisok = NULL; //массив, который потом запишим в множество E(результат)
+	int* spisok = NULL; //РјР°СЃСЃРёРІ, РєРѕС‚РѕСЂС‹Р№ РїРѕС‚РѕРј Р·Р°РїРёС€РёРј РІ РјРЅРѕР¶РµСЃС‚РІРѕ E(СЂРµР·СѓР»СЊС‚Р°С‚)
 
-	for (list *frst = A->head, *scnd = C->head; frst, scnd; frst = frst->next, scnd = scnd->next) //делаем цикл сразу по A и C одновременно
+	for (list *frst = A->head, *scnd = C->head; frst, scnd; frst = frst->next, scnd = scnd->next) //РґРµР»Р°РµРј С†РёРєР» СЃСЂР°Р·Сѓ РїРѕ A Рё C РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ
 	{
 		x = false;
 		if (spisok) {
-			for (int i = 0; i < (_msize(spisok) / sizeof(int)); i++) //сверяем с E(если уже есть)
+			for (int i = 0; i < (_msize(spisok) / sizeof(int)); i++) //СЃРІРµСЂСЏРµРј СЃ E(РµСЃР»Рё СѓР¶Рµ РµСЃС‚СЊ)
 				if (spisok[i] == frst->symbol || spisok[i] == scnd->symbol) {
 					x = true;
 					break;
 				}
-			if (x) continue; //скипаем все остальные проверки тк в E уже есть такое число
+			if (x) continue; //СЃРєРёРїР°РµРј РІСЃРµ РѕСЃС‚Р°Р»СЊРЅС‹Рµ РїСЂРѕРІРµСЂРєРё С‚Рє РІ E СѓР¶Рµ РµСЃС‚СЊ С‚Р°РєРѕРµ С‡РёСЃР»Рѕ
 		}
 
-		for (list* thrd = B->head; thrd; thrd = thrd->next) //сверяем с B
-			if (frst->symbol != thrd->symbol || scnd->symbol != thrd->symbol) { //если нету хотя бы одного то идем проверять какого именно
+		for (list* thrd = B->head; thrd; thrd = thrd->next) //СЃРІРµСЂСЏРµРј СЃ B
+			if (frst->symbol != thrd->symbol || scnd->symbol != thrd->symbol) { //РµСЃР»Рё РЅРµС‚Сѓ С…РѕС‚СЏ Р±С‹ РѕРґРЅРѕРіРѕ С‚Рѕ РёРґРµРј РїСЂРѕРІРµСЂСЏС‚СЊ РєР°РєРѕРіРѕ РёРјРµРЅРЅРѕ
 				spisok = check_01(spisok, frst->symbol, scnd->symbol, thrd->symbol);
 				x = true;
 				break;
 			}
-		if (!x) //если не нашли в B то
-			for (list* thrd = D->head; thrd; thrd = thrd->next) //сверяем с D
-				if (frst->symbol != thrd->symbol || scnd->symbol != thrd->symbol) { //если нету хотя бы одного то идем проверять какого именно
+		if (!x) //РµСЃР»Рё РЅРµ РЅР°С€Р»Рё РІ B С‚Рѕ
+			for (list* thrd = D->head; thrd; thrd = thrd->next) //СЃРІРµСЂСЏРµРј СЃ D
+				if (frst->symbol != thrd->symbol || scnd->symbol != thrd->symbol) { //РµСЃР»Рё РЅРµС‚Сѓ С…РѕС‚СЏ Р±С‹ РѕРґРЅРѕРіРѕ С‚Рѕ РёРґРµРј РїСЂРѕРІРµСЂСЏС‚СЊ РєР°РєРѕРіРѕ РёРјРµРЅРЅРѕ
 					spisok = check_01(spisok, frst->symbol, scnd->symbol, thrd->symbol);
 					break;
 				}
 	}
 
-	int i = (_msize(spisok) / sizeof(int)) - 1; //получаем длинну массива уродским способом за который мне стыдно
-	spisok = (int*)realloc(spisok, (i - 1) * sizeof(int)); //убераем последний элемент в массиве тк я дыбил и там пустая ячейка
+	int i = (_msize(spisok) / sizeof(int)) - 1; //РїРѕР»СѓС‡Р°РµРј РґР»РёРЅРЅСѓ РјР°СЃСЃРёРІР° СѓСЂРѕРґСЃРєРёРј СЃРїРѕСЃРѕР±РѕРј Р·Р° РєРѕС‚РѕСЂС‹Р№ РјРЅРµ СЃС‚С‹РґРЅРѕ
+	spisok = (int*)realloc(spisok, (i - 1) * sizeof(int)); //СѓР±РµСЂР°РµРј РїРѕСЃР»РµРґРЅРёР№ СЌР»РµРјРµРЅС‚ РІ РјР°СЃСЃРёРІРµ С‚Рє СЏ РґС‹Р±РёР» Рё С‚Р°Рј РїСѓСЃС‚Р°СЏ СЏС‡РµР№РєР°
 	return arrtolist(spisok, i + 1)->head;
 }
 
 int* check_01(int* spisok, int first, int second, int third) {
 	if (!spisok)
 		spisok = new int[1];
-	int i = (_msize(spisok) / sizeof(int)) - 1; //длинна массива а также последний элемент
+	int i = (_msize(spisok) / sizeof(int)) - 1; //РґР»РёРЅРЅР° РјР°СЃСЃРёРІР° Р° С‚Р°РєР¶Рµ РїРѕСЃР»РµРґРЅРёР№ СЌР»РµРјРµРЅС‚
 
-	if (first != second) { //если A и C не равны
-		if (first != third && second != third) { //если они оба подходят под условие
+	if (first != second) { //РµСЃР»Рё A Рё C РЅРµ СЂР°РІРЅС‹
+		if (first != third && second != third) { //РµСЃР»Рё РѕРЅРё РѕР±Р° РїРѕРґС…РѕРґСЏС‚ РїРѕРґ СѓСЃР»РѕРІРёРµ
 			spisok = (int*)realloc(spisok, (i + 3) * sizeof(int));
 			spisok[i] = first;
 			spisok[i + 1] = second;
 			return spisok;
 		}
-		spisok = (int*)realloc(spisok, (i + 2) * sizeof(int)); //заранее выделяем память под 1 элемент
-		if (first != third) { //если только A подходит под условие
+		spisok = (int*)realloc(spisok, (i + 2) * sizeof(int)); //Р·Р°СЂР°РЅРµРµ РІС‹РґРµР»СЏРµРј РїР°РјСЏС‚СЊ РїРѕРґ 1 СЌР»РµРјРµРЅС‚
+		if (first != third) { //РµСЃР»Рё С‚РѕР»СЊРєРѕ A РїРѕРґС…РѕРґРёС‚ РїРѕРґ СѓСЃР»РѕРІРёРµ
 			spisok[i] = first;
 			return spisok;
 		}
-		else if (second != third) { //если только B подходит под условие
+		else if (second != third) { //РµСЃР»Рё С‚РѕР»СЊРєРѕ B РїРѕРґС…РѕРґРёС‚ РїРѕРґ СѓСЃР»РѕРІРёРµ
 			spisok[i] = second;
 			return spisok;
 		}
 	}
 	else {
-		spisok[i] = first; //тут нам по барабану че пихать тк A и C равны
+		spisok[i] = first; //С‚СѓС‚ РЅР°Рј РїРѕ Р±Р°СЂР°Р±Р°РЅСѓ С‡Рµ РїРёС…Р°С‚СЊ С‚Рє A Рё C СЂР°РІРЅС‹
 		return spisok;
 	}
 }
@@ -188,7 +188,7 @@ void output(list *E)
 {
 	if (E)
 	{
-		cout << "Сформированное множество E: { ";
+		cout << "РЎС„РѕСЂРјРёСЂРѕРІР°РЅРЅРѕРµ РјРЅРѕР¶РµСЃС‚РІРѕ E: { ";
 		for (list *p = E->head; p; p = p->next)
 		{
 			if (p->next)
@@ -197,7 +197,7 @@ void output(list *E)
 		}
 		cout << "}" << endl;
 	}
-	else cout << "Множество E - пустое" << endl;
+	else cout << "РњРЅРѕР¶РµСЃС‚РІРѕ E - РїСѓСЃС‚РѕРµ" << endl;
 
 	system("pause");
 }
