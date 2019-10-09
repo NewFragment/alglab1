@@ -161,8 +161,8 @@ int* check_01(int* spisok, int first, int second, int third) {
 		spisok = new int[1];
 	int i = (_msize(spisok) / sizeof(int)) - 1; //длинна массива а также последний элемент
 
-	if (first != second) { //если A и C не равны
-		if (first != third && second != third) { //если они оба подходят под условие
+	if (first != second) { //если A и C не равны, то
+		if (first != third && second != third) { //если они оба подходят под условие, то и запихиваем оба
 			spisok = (int*)realloc(spisok, (i + 3) * sizeof(int));
 			spisok[i] = first;
 			spisok[i + 1] = second;
@@ -173,7 +173,7 @@ int* check_01(int* spisok, int first, int second, int third) {
 			spisok[i] = first;
 			return spisok;
 		}
-		else if (second != third) { //если только B подходит под условие
+		else if (second != third) { //если только C подходит под условие
 			spisok[i] = second;
 			return spisok;
 		}
