@@ -26,7 +26,7 @@ int main()
 {
 	setlocale(LC_ALL, "RUS");
 	list *A, *B, *C, *D, *E;
-
+	
 	A = input(0);
 	B = input(1);
 	C = input(2);
@@ -119,22 +119,21 @@ list* arrtolist(int* spisok, int b) {
 
 list* check(list* A, list* C, list *B, list *D)
 {
-	list* E = NULL;
 	bool x = false;
-	if (!A || !C) return E;
+	if (!A || !C) return NULL; //ну тут вопросов нема
 
 	int* spisok = NULL; //массив, который потом запишим в множество E(результат)
 
 	for (list *frst = A->head, *scnd = C->head; frst, scnd; frst = frst->next, scnd = scnd->next) //делаем цикл сразу по A и C одновременно
 	{
 		x = false;
-		if (spisok) {
-			for (int i = 0; i < (_msize(spisok) / sizeof(int)); i++) //сверяем с E(если уже есть)
+		if (spisok) { //если в E у нас уже чето есть то
+			for (int i = 0; i < (_msize(spisok) / sizeof(int)); i++) //сверяем с E
 				if (spisok[i] == frst->symbol || spisok[i] == scnd->symbol) {
 					x = true;
 					break;
 				}
-			if (x) continue; //скипаем все остальные проверки тк в E уже есть такое число
+			if (x) continue; //скипаем все остальные проверки если в E уже есть такое число
 		}
 
 		for (list* thrd = B->head; thrd; thrd = thrd->next) //сверяем с B
@@ -143,12 +142,13 @@ list* check(list* A, list* C, list *B, list *D)
 				x = true;
 				break;
 			}
-		if (!x) //если не нашли в B то
+		if (!x) //если нашли в B то
 			for (list* thrd = D->head; thrd; thrd = thrd->next) //сверяем с D
 				if (frst->symbol != thrd->symbol || scnd->symbol != thrd->symbol) { //если нету хотя бы одного то идем проверять какого именно
 					spisok = check_01(spisok, frst->symbol, scnd->symbol, thrd->symbol);
 					break;
 				}
+		//сюда кста прыгает оператор continue если кто не в курсе да
 	}
 
 	int i = (_msize(spisok) / sizeof(int)) - 1; //получаем длинну массива уродским способом за который мне стыдно
