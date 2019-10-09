@@ -11,15 +11,15 @@ struct list
 };	
 
 //-----------------------описание функций--------------------
-char strings(int a);//вспомогательная функция для вывода наименования множества
-list* input(int b);//функция ввода массива
-void incorrect();//функция для сообщения об ошибке ввода
-list* arrtolist(int* spisok, int b);//функция перевода массива в список
-list* check(list* A, list* C, list *B, list *D);//функция проверки основного условия
-int* check_01(int* spisok, int first, int second, int third);//вспомогательная функция проверки основного условия
-void output(list *E);//функция вывода результата на экран
-list* freemem(list* A, list* B, list* C, list* D, list* E);//функция очистки памяти
-void freemem_01(list*A);//вспомогательная функция очистки памяти
+char strings(int a); //вспомогательная функция для вывода наименования множества
+list* input(int b); //функция ввода массива
+void incorrect(); //функция для сообщения об ошибке ввода
+list* arrtolist(int* spisok, int b); //функция перевода массива в список
+list* check(list* A, list* C, list *B, list *D); //функция проверки основного условия
+int* check_01(int* spisok, int first, int second, int third); //вспомогательная функция проверки основного условия
+void output(list *E); //функция вывода результата на экран
+list* freemem(list* A, list* B, list* C, list* D, list* E); //функция очистки памяти
+void freemem_01(list*A); //вспомогательная функция очистки памяти
 //------------------------------------------------------------
 
 int main()
