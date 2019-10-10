@@ -1,5 +1,4 @@
-﻿//допса ешо естт
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <iostream>
 #include <locale.h>
 using namespace std;
@@ -123,7 +122,7 @@ list* arrtolist(int* spisok, int b, bool c) {
 list* check(list* A, list* C, list *B, list *D)
 {
 	bool x = false;
-	if (!A || !C) return NULL; //ну тут вопросов нема
+	if (!A && !C) return NULL; //ну тут вопросов нема
 
 	int* spisok = NULL; //массив, который потом запишим в множество E(результат)
 
@@ -141,14 +140,14 @@ list* check(list* A, list* C, list *B, list *D)
 		}
 
 		for (list* thrd = B->head; thrd; thrd = thrd->next) //сверяем с B
-			if (frst->symbol != thrd->symbol || scnd->symbol != thrd->symbol) { //если нету хотя бы одного то идем проверять какого именно
+			if (frst->symbol != thrd->symbol || scnd->symbol != thrd->symbol) { //если нету хотя бы у одного то идем проверять какого именно
 				spisok = check_01(spisok, frst->symbol, scnd->symbol, thrd->symbol);
 				x = true;
 				break;
 			}
 		if (!x) //если нашли в B то
 			for (list* thrd = D->head; thrd; thrd = thrd->next) //сверяем с D
-				if (frst->symbol != thrd->symbol || scnd->symbol != thrd->symbol) { //если нету хотя бы одного то идем проверять какого именно
+				if (frst->symbol != thrd->symbol || scnd->symbol != thrd->symbol) { //если нету хотя бы у одного то идем проверять какого именно
 					spisok = check_01(spisok, frst->symbol, scnd->symbol, thrd->symbol);
 					break;
 				}
@@ -178,12 +177,14 @@ int* check_01(int* spisok, int first, int second, int third) {
 			return spisok;
 		}
 		spisok = (int*)realloc(spisok, (i + 1) * sizeof(int)); //заранее выделяем память под 1 элемент
-		if (first != third) { //если только A подходит под условие
+		if (first != third)
+		{ //если только A подходит под условие
 			spisok[i] = first;
 			spisok[0]++;
 			return spisok;
 		}
-		else if (second != third) { //если только C подходит под условие
+		else
+		{ //если только C подходит под условие
 			spisok[i] = second;
 			spisok[0]++;
 			return spisok;
