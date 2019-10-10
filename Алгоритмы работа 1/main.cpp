@@ -10,46 +10,54 @@ struct list
 	list* head;
 };
 
+//---------------------------------------------------
 list* input(list* A, int b);
 char strings(int a);
 void incorrect();
 list* check(list*A, list*B, list*C, list*D, list*E);
 int* check_01(list*A, list*B, bool c);
 void output(list *E);
+//---------------------------------------------------
 
-list* freemem(list* A) {
-	if (!A) return NULL;
-	A = A->head;
-	if (!A->next) {
-		delete A;
-		return NULL;
-	}
-	for (list *p = A->head->next; p; p = p->next) {
-		delete A;
-		A = p;
-	}
-	delete A;
 
-	return NULL;
-}
 
-char strings(int a)
+
+
+
+
+
+
+
+
+
+
+int main()
 {
 
-	switch (a)
-	{
-	case 0: {return 'A'; }
-	case 1: {return 'B'; }
-	case 2: {return 'C'; }
-	case 3: {return 'D'; }
-	}
+	setlocale(LC_ALL, "RUS");
 
-}
+	list *A, *B, *C, *D, *E;
+	A = NULL;
+	B = NULL;
+	C = NULL;
+	D = NULL;
+	E = NULL;
 
-void incorrect() {
-	cin.clear();
-	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	cout << "Некорректный ввод! Повторите" << endl;
+	A = input(A, 0);
+	B = input(B, 1);
+	C = input(C, 2);
+	D = input(D, 3);
+	E = check(A, B, C, D, E);
+	output(E);
+
+	A = freemem(A);
+	B = freemem(B);
+	C = freemem(C);
+	D = freemem(D);
+	E = freemem(E);
+
+	return 0;
+
 }
 
 list* input(list* A, int b)
@@ -70,7 +78,7 @@ list* input(list* A, int b)
 			}
 			else
 				incorrect();
-			
+
 		}
 	} while (true);
 
@@ -108,45 +116,23 @@ list* input(list* A, int b)
 	A->next = NULL;
 	return A->head;
 }
-
-void output(list *E)
+char strings(int a)
 {
-	if (E)
-	{
-		cout << "Сформированное множество E: { ";
-		for (list *p = E->head; p; p = p->next)
-		{
-			if (p->next)
-				cout << hex << p->symbol << "; ";
-			else cout << hex << p->symbol << " ";
-		}
-		cout << "}" << endl;
-	}
-	else cout << "Множество E - пустое" << endl;
 
-	system("pause");
+	switch (a)
+	{
+	case 0: {return 'A'; }
+	case 1: {return 'B'; }
+	case 2: {return 'C'; }
+	case 3: {return 'D'; }
+	}
+
 }
-
-int* check_01(list*A,list*B,bool c)
-{
-	int*u = new int[16];
-	for (int i = 0; i < 16; ++i) u[i] = 0;
-	for (list*a = A->head; a; a = a->next) 
-	{
-		int k = a->symbol;
-		u[k] = 1;
-	}
-	for (list*a = B->head; a; a = a->next)
-	{
-		int k = a->symbol;
-		u[k] = 1;
-	}
-	if (c)
-		for (int i = 0; i < 16; ++i)
-			u[i] == 1 ? u[i] = 0 : u[i] = 1;
-	return u;
+void incorrect() {
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	cout << "Некорректный ввод! Повторите" << endl;
 }
-
 list* check(list*A, list*B, list*C, list*D, list*E)
 {
 
@@ -176,32 +162,54 @@ list* check(list*A, list*B, list*C, list*D, list*E)
 	E->next = NULL;
 	return E->head;
 }
-
-int main()
+int* check_01(list*A, list*B, bool c)
 {
+	int*u = new int[16];
+	for (int i = 0; i < 16; ++i) u[i] = 0;
+	for (list*a = A->head; a; a = a->next)
+	{
+		int k = a->symbol;
+		u[k] = 1;
+	}
+	for (list*a = B->head; a; a = a->next)
+	{
+		int k = a->symbol;
+		u[k] = 1;
+	}
+	if (c)
+		for (int i = 0; i < 16; ++i)
+			u[i] == 1 ? u[i] = 0 : u[i] = 1;
+	return u;
+}
+void output(list *E)
+{
+	if (E)
+	{
+		cout << "Сформированное множество E: { ";
+		for (list *p = E->head; p; p = p->next)
+		{
+			if (p->next)
+				cout << hex << p->symbol << "; ";
+			else cout << hex << p->symbol << " ";
+		}
+		cout << "}" << endl;
+	}
+	else cout << "Множество E - пустое" << endl;
 
-	setlocale(LC_ALL, "RUS");
+	system("pause");
+}
+list* freemem(list* A) {
+	if (!A) return NULL;
+	A = A->head;
+	if (!A->next) {
+		delete A;
+		return NULL;
+	}
+	for (list *p = A->head->next; p; p = p->next) {
+		delete A;
+		A = p;
+	}
+	delete A;
 
-	list *A, *B, *C, *D, *E;
-	A = NULL;
-	B = NULL;
-	C = NULL;
-	D = NULL;
-	E = NULL;
-
-	A = input(A, 0);
-	B = input(B, 1);
-	C = input(C, 2);
-	D = input(D, 3);
-	E = check(A, B, C, D, E);
-	output(E);
-
-	A = freemem(A);
-	B = freemem(B);
-	C = freemem(C);
-	D = freemem(D);
-	E = freemem(E);
-
-	return 0;
-
+	return NULL;
 }
