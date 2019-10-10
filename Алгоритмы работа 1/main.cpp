@@ -88,9 +88,11 @@ list* input(list* A, int b)
 	int i = 0;
 	do { //заполняем список из массива
 		A->symbol = spisok[i];
-		A->next = new list;
-		A->next->head = A->head;
-		A = A->next;
+		if (i == a) {
+			A->next = new list;
+			A->next->head = A->head;
+			A = A->next;
+		}
 		i++;
 	} while (i != a);
 	delete spisok;
@@ -154,7 +156,7 @@ list* check(list*A, list*B, list*C, list*D, list*E)
 {
 	int *u1 = univers(A, C, false);
 	int*u2 = univers(B, D, true);
-	for (int i = 0; i < 16; ++i) u1[i] = u1[i] * u2[i];
+	for (int i = 0; i < 16; i++) u1[i] = u1[i] * u2[i];
 	for (int i = 0; i < 16; i++)
 	{
 		if (u1[i] == 1)
@@ -175,7 +177,8 @@ list* check(list*A, list*B, list*C, list*D, list*E)
 
 		}
 	}
-	return E;
+	E->next = NULL;
+	return E->head;
 }
 
 int main()
