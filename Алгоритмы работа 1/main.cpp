@@ -154,8 +154,9 @@ int*univers(list*A,list*B,bool c)
 
 list* check(list*A, list*B, list*C, list*D, list*E)
 {
-	int *u1 = univers(A, C, false);
-	int*u2 = univers(B, D, true);
+
+	int* u1 = univers(A, C, false);
+	int* u2 = univers(B, D, true);
 	for (int i = 0; i < 16; i++) u1[i] = u1[i] * u2[i];
 	for (int i = 0; i < 16; i++)
 	{
