@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include <iostream>
 #include <locale.h>
+
 using namespace std;
 
 struct list
@@ -8,37 +9,22 @@ struct list
 	int symbol;
 	list* next;
 	list* head;
-};	
+};
 
+list* freemem(list* A) {
+	if (!A) return NULL;
+	A = A->head;
+	if (!A->next) {
+		delete A;
+		return NULL;
+	}
+	for (list *p = A->head->next; p; p = p->next) {
+		delete A;
+		A = p;
+	}
+	delete A;
 
-//-----------------------описание функций--------------------
-char strings(int a); //вспомогательная функция для вывода наименования множества
-list* input(int b); //функция ввода массива
-void incorrect(); //функция для сообщения об ошибке ввода
-list* arrtolist(int* spisok, int b, bool c); //функция перевода массива в список
-list* check(list* A, list* C, list *B, list *D); //функция проверки основного условия
-int* check_01(int* spisok, int first, int second, int third); //вспомогательная функция проверки основного условия
-void output(list *E); //функция вывода результата на экран
-list* freemem(list* A, list* B, list* C, list* D, list* E); //функция очистки памяти
-void freemem_01(list*A); //вспомогательная функция очистки памяти
-//------------------------------------------------------------
-
-int main()
-{
-	setlocale(LC_ALL, "RUS");
-	list *A, *B, *C, *D, *E;
-	
-	A = input(0);
-	B = input(1);
-	C = input(2);
-	D = input(3);
-	E = check(A, C, B, D);
-
-	output(E);
-
-	freemem(A, B, C, D, E);
-	
-	return 0;
+	return NULL;
 }
 
 char strings(int a)
@@ -54,9 +40,10 @@ char strings(int a)
 
 }
 
-list* input(int b)
+list* input(list* A, int b)
 {
-	int* spisok = NULL;
+	int *spisok;
+	spisok = NULL;
 	int a;
 	cout << endl << "Введите количество элементов множества '" << strings(b) << "' (от 0 до 16):";
 	do
@@ -67,134 +54,49 @@ list* input(int b)
 			if (a == 0)
 			{
 				cout << "Вы ввели пустое множество '" << strings(b) << "' !" << endl;
-				system("pause");
 				return NULL;
 			}
-			else incorrect();
+			else
+			{
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				cout << "Некорректный ввод! Повторите" << endl;
+			}
 		}
 	} while (true);
 
-	spisok = new int[a];
+	spisok = (int*)malloc(a * sizeof(int));
 
 	for (int i = 0; i < a; i++) { //вводим массив
 		do {
 			cout << endl << "Введите значение для множества '" << strings(b) << "' в 16СС: ";
 			if (!(cin >> hex >> spisok[i]))
-				incorrect();
+			{
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				cout << "Некорректный ввод! Повторите" << endl;
+			}
 			else break;
 
 		} while (true);
 	}
 
-
-	
-	system("pause");
-	return arrtolist(spisok, a-1, false)->head;
-}
-
-void incorrect() {
-	cin.clear();
-	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	cout << "Некорректный ввод! Повторите" << endl;
-}
-
-list* arrtolist(int* spisok, int b, bool c) {
-	list* A = NULL;
 	A = new list;
 	A->head = A;
+
 	int i = 0;
-	if (c) 
-		i++;
-	do {
+	do { //заполняем список из массива
 		A->symbol = spisok[i];
-		if (i == b) break;
 		A->next = new list;
 		A->next->head = A->head;
 		A = A->next;
 		i++;
-	} while (i <= b);
-
+	} while (i != a);
 	delete spisok;
+
+	system("pause");
 	A->next = NULL;
-	return A;
-}
-
-list* check(list* A, list* C, list *B, list *D)
-{
-	bool x = false;
-	if (!A && !C) return NULL; //ну тут вопросов нема
-
-	int* spisok = NULL; //массив, который потом запишим в множество E(результат)
-
-
-	for (list *frst = A->head, *scnd = C->head; frst, scnd; frst = frst->next, scnd = scnd->next) //делаем цикл сразу по A и C одновременно
-	{
-		x = false;
-		if (spisok) { //если в E у нас уже чето есть то
-			for (int i = 1; i < spisok[0]; i++) //сверяем с E
-				if (spisok[i] == frst->symbol || spisok[i] == scnd->symbol) {
-					x = true;
-					break;
-				}
-			if (x) continue; //скипаем все остальные проверки если в E уже есть такое число
-		}
-
-		for (list* thrd = B->head; thrd; thrd = thrd->next) //сверяем с B
-			if (frst->symbol != thrd->symbol || scnd->symbol != thrd->symbol) { //если нету хотя бы у одного то идем проверять какого именно
-				spisok = check_01(spisok, frst->symbol, scnd->symbol, thrd->symbol);
-				x = true;
-				break;
-			}
-		if (!x) //если нашли в B то
-			for (list* thrd = D->head; thrd; thrd = thrd->next) //сверяем с D
-				if (frst->symbol != thrd->symbol || scnd->symbol != thrd->symbol) { //если нету хотя бы у одного то идем проверять какого именно
-					spisok = check_01(spisok, frst->symbol, scnd->symbol, thrd->symbol);
-					break;
-				}
-		//сюда кста прыгает оператор continue если кто не в курсе да
-	}
-	if (spisok) {
-		spisok = (int*)realloc(spisok, (spisok[0]) * sizeof(int)); //убераем последний элемент в массиве тк я дыбил и там пустая ячейка
-		
-		return arrtolist(spisok, spisok[0]-1, true)->head;
-	}
-	return NULL;
-}
-
-int* check_01(int* spisok, int first, int second, int third) {
-	if (!spisok) {
-		spisok = new int[2];
-		spisok[0] = 1; //в 0м элементе храним размер массива
-	}
-	int i = spisok[0]; //длинна массива а также последний элемент
-
-	if (first != second) { //если A и C не равны, то
-		if (first != third && second != third) { //если они оба подходят под условие, то и запихиваем оба
-			spisok = (int*)realloc(spisok, (i + 2) * sizeof(int));
-			spisok[i] = first;
-			spisok[i + 1] = second;
-			spisok[0] = spisok[0] + 2;
-			return spisok;
-		}
-		spisok = (int*)realloc(spisok, (i + 1) * sizeof(int)); //заранее выделяем память под 1 элемент
-		if (first != third)
-		{ //если только A подходит под условие
-			spisok[i] = first;
-			spisok[0]++;
-			return spisok;
-		}
-		else
-		{ //если только C подходит под условие
-			spisok[i] = second;
-			spisok[0]++;
-			return spisok;
-		}
-	}
-	else {
-		spisok[i] = first; //тут нам по барабану че пихать тк A и C равны
-		spisok[0]++;
-		return spisok;
-	}
+	return A->head;
 }
 
 void output(list *E)
@@ -215,27 +117,128 @@ void output(list *E)
 	system("pause");
 }
 
-list* freemem(list* A, list* B, list* C, list* D, list* E) {
-	char arr[5] = { 'A','B','C','D','E' };
-	if (!A) return NULL;
-	A = A->head;
-	if (!A->next) {
-		delete A;
-		return NULL;
-	}
-	freemem_01(A);
-	freemem_01(B);
-	freemem_01(C);
-	freemem_01(D);
-	freemem_01(E);
+list* check(list* A, list *B, list *D, list *E)
+{
+	bool x, x1, x2;
+	if (!A) return E;
 
-	return NULL;
+	for (list *p = A->head; p; p = p->next)
+	{
+		x = false;
+
+		if (E)
+		{
+			for (list *d = E->head; d; d = d->next)
+			{ //сверяем A/C с E
+				if (p->symbol == d->symbol)
+				{
+					x = true;
+					break;
+				}
+
+			}
+			if (!x && B) //Если в E не нашлось, то
+			{
+				for (list *d = B->head; d; d = d->next)//Сверяем с B
+				{
+					if (p->symbol == d->symbol)
+					{
+						x = true;
+						break;
+					}
+				}
+				if (x) //Если в B нашлось, то
+				{
+					x = false;
+					if (D)
+						for (list *d = D->head; d; d = d->next) //Сверяем с D
+						{
+							if (p->symbol == d->symbol)
+							{
+								x = true;
+								break;
+							}
+						}
+				}
+			}
+			if (!x)
+			{
+
+				E->next = new list;
+				E->next->head = E->head;
+				E = E->next;
+				E->symbol = p->symbol;
+				E->next = NULL;
+
+			}
+		}
+		else
+		{
+			if (B)
+			{
+				for (list *d = B->head; d; d = d->next)//Сверяем с B
+				{
+					if (p->symbol == d->symbol)
+					{
+						x = true;
+						break;
+					}
+				}
+			}
+			if (x) //Если есть в B, то сверяем с D
+			{
+				x = false;
+				if (D)
+					for (list *d = D->head; d; d = d->next)
+					{
+						if (p->symbol == d->symbol)
+						{
+							x = true;
+							break;
+						}
+					}
+			}
+			if (!x)
+			{
+				E = new list;
+				E->head = E;
+				E->symbol = p->symbol;
+				E->next = NULL;
+			}
+		}
+	}
+
+
+
+	return E;
 }
 
-void freemem_01(list*A) {
-	for (list *p = A->head->next; p; p = p->next) {
-		delete A;
-		A = p;
-	}
-	delete A;
+int main()
+{
+
+	setlocale(LC_ALL, "RUS");
+
+	list *A, *B, *C, *D, *E;
+	A = NULL;
+	B = NULL;
+	C = NULL;
+	D = NULL;
+	E = NULL;
+
+	A = input(A, 0);
+	B = input(B, 1);
+	C = input(C, 2);
+	D = input(D, 3);
+	E = check(A, B, D, E);
+	E = check(C, B, D, E);
+	output(E);
+
+	A = freemem(A);
+	B = freemem(B);
+	C = freemem(C);
+	D = freemem(D);
+	E = freemem(E);
+
+	return 0;
+
 }
