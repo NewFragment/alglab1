@@ -130,67 +130,51 @@ void output(list *E)
 	system("pause");
 }
 
-list* check(list* A, list *B, list *D, list *E)
+int*univers(list*A,list*B,bool c)
 {
-	bool x;
-	if (!A) return E;
-
-	for (list *p = A->head; p; p = p->next)
+	int*u = new int[16];
+	for (int i = 0; i < 16; ++i) u[i] = 0;
+	for (list*a = A->head; a; a = a->next) 
 	{
-		x = false;
+		int k = a->symbol;
+		u[k] = 1;
+	}
+	for (list*a = B->head; a; a = a->next)
+	{
+		int k = a->symbol;
+		u[k] = 1;
+	}
+	if (c)
+		for (int i = 0; i < 16; ++i)
+			u[i] == 1 ? u[i] = 0 : u[i] = 1;
+	return u;
+}
 
-		if (E)
+list* check(list*A, list*B, list*C, list*D, list*E)
+{
+	int *u1 = univers(A, C, false);
+	int*u2 = univers(B, D, true);
+	for (int i = 0; i < 16; ++i) u1[i] = u1[i] * u2[i];
+	for (int i = 0; i < 16; i++)
+	{
+		if (u1[i] == 1)
 		{
-			
-			x = alg(E->head, p->symbol); //сверяем A с E
-
-			if (!x && B) //Если в E не нашлось, то
+			if (E)
 			{
-				
-				x = alg(B->head, p->symbol); //Сверяем с B
-
-				if (x) //Если в B нашлось, то
-				{
-					x = false;
-					if (D)
-					x = alg(D->head, p->symbol); //сверяем с D
-				}
-			}
-			if (!x)
-			{
-
 				E->next = new list;
 				E->next->head = E->head;
 				E = E->next;
-				E->symbol = p->symbol;
-				E->next = NULL;
-
+				E->symbol = i;
 			}
-		}
-		else
-		{
-			if (B)
-			{
-				x = alg(B->head, p->symbol); //Сверяем с B
-			}
-			if (x) //Если есть в B, то сверяем с D
-			{
-				x = false;
-				if (D)
-					x = alg(D->head, p->symbol); //сверяем с D
-			}
-			if (!x)
+			else
 			{
 				E = new list;
+				E->symbol = i;
 				E->head = E;
-				E->symbol = p->symbol;
-				E->next = NULL;
 			}
+
 		}
 	}
-
-
-
 	return E;
 }
 
@@ -210,8 +194,7 @@ int main()
 	B = input(B, 1);
 	C = input(C, 2);
 	D = input(D, 3);
-	E = check(A, B, D, E);
-	E = check(C, B, D, E);
+	E = check(A, B, C, D, E);
 	output(E);
 
 	A = freemem(A);
