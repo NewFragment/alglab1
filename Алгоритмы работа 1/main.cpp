@@ -1,5 +1,4 @@
-﻿//Допса ешо ест
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <iostream>
 #include <locale.h>
 using namespace std;
@@ -11,54 +10,39 @@ struct list
 	list* head;
 };
 
-//---------------------------------------------------
-list* input(list* A, int b);
-char strings(int a);
-void incorrect();
-list* check(list*A, list*B, list*C, list*D, list*E);
-int* check_01(list*A, list*B, bool c);
-void output(list *E);
-//---------------------------------------------------
+list* freemem(list* A) {
+	if (!A) return NULL;
+	A = A->head;
+	if (!A->next) {
+		delete A;
+		return NULL;
+	}
+	for (list *p = A->head->next; p; p = p->next) {
+		delete A;
+		A = p;
+	}
+	delete A;
 
+	return NULL;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-int main()
+char strings(int a)
 {
 
-	setlocale(LC_ALL, "RUS");
+	switch (a)
+	{
+	case 0: {return 'A'; }
+	case 1: {return 'B'; }
+	case 2: {return 'C'; }
+	case 3: {return 'D'; }
+	}
 
-	list *A, *B, *C, *D, *E;
-	A = NULL;
-	B = NULL;
-	C = NULL;
-	D = NULL;
-	E = NULL;
+}
 
-	A = input(A, 0);
-	B = input(B, 1);
-	C = input(C, 2);
-	D = input(D, 3);
-	E = check(A, B, C, D, E);
-	output(E);
-
-	A = freemem(A);
-	B = freemem(B);
-	C = freemem(C);
-	D = freemem(D);
-	E = freemem(E);
-
-	return 0;
-
+void incorrect() {
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	cout << "Некорректный ввод! Повторите" << endl;
 }
 
 list* input(list* A, int b)
@@ -104,11 +88,9 @@ list* input(list* A, int b)
 	int i = 0;
 	do { //заполняем список из массива
 		A->symbol = spisok[i];
-		if (i == a) {
-			A->next = new list;
-			A->next->head = A->head;
-			A = A->next;
-		}
+		A->next = new list;
+		A->next->head = A->head;
+		A = A->next;
 		i++;
 	} while (i != a);
 	delete spisok;
@@ -117,71 +99,19 @@ list* input(list* A, int b)
 	A->next = NULL;
 	return A->head;
 }
-char strings(int a)
-{
 
-	switch (a)
+bool alg(list* d, int a) {
+	for (d; d; d = d->next)
 	{
-	case 0: {return 'A'; }
-	case 1: {return 'B'; }
-	case 2: {return 'C'; }
-	case 3: {return 'D'; }
-	}
-
-}
-void incorrect() {
-	cin.clear();
-	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	cout << "Некорректный ввод! Повторите" << endl;
-}
-list* check(list*A, list*B, list*C, list*D, list*E)
-{
-
-	int* u1 = univers(A, C, false);
-	int* u2 = univers(B, D, true);
-	for (int i = 0; i < 16; i++) u1[i] = u1[i] * u2[i];
-	for (int i = 0; i < 16; i++)
-	{
-		if (u1[i] == 1)
+		if (a == d->symbol)
 		{
-			if (E)
-			{
-				E->next = new list;
-				E->next->head = E->head;
-				E = E->next;
-				E->symbol = i;
-			}
-			else
-			{
-				E = new list;
-				E->symbol = i;
-				E->head = E;
-			}
-
+			return true;
 		}
+
 	}
-	E->next = NULL;
-	return E->head;
+	return false;
 }
-int* check_01(list*A, list*B, bool c)
-{
-	int*u = new int[16];
-	for (int i = 0; i < 16; ++i) u[i] = 0;
-	for (list*a = A->head; a; a = a->next)
-	{
-		int k = a->symbol;
-		u[k] = 1;
-	}
-	for (list*a = B->head; a; a = a->next)
-	{
-		int k = a->symbol;
-		u[k] = 1;
-	}
-	if (c)
-		for (int i = 0; i < 16; ++i)
-			u[i] == 1 ? u[i] = 0 : u[i] = 1;
-	return u;
-}
+
 void output(list *E)
 {
 	if (E)
@@ -199,18 +129,97 @@ void output(list *E)
 
 	system("pause");
 }
-list* freemem(list* A) {
-	if (!A) return NULL;
-	A = A->head;
-	if (!A->next) {
-		delete A;
-		return NULL;
-	}
-	for (list *p = A->head->next; p; p = p->next) {
-		delete A;
-		A = p;
-	}
-	delete A;
 
-	return NULL;
+list* check(list* A, list *B, list *D, list *E)
+{
+	bool x;
+	if (!A) return E;
+
+	for (list *p = A->head; p; p = p->next)
+	{
+		x = false;
+
+		if (E)
+		{
+
+			x = alg(E->head, p->symbol); //сверяем A с E
+
+			if (!x && B) //Если в E не нашлось, то
+			{
+
+				x = alg(B->head, p->symbol); //Сверяем с B
+
+				if (x) //Если в B нашлось, то
+				{
+					x = false;
+					if (D)
+						x = alg(D->head, p->symbol); //сверяем с D
+				}
+			}
+			if (!x)
+			{
+
+				E->next = new list;
+				E->next->head = E->head;
+				E = E->next;
+				E->symbol = p->symbol;
+				E->next = NULL;
+
+			}
+		}
+		else
+		{
+			if (B)
+			{
+				x = alg(B->head, p->symbol); //Сверяем с B
+			}
+			if (x) //Если есть в B, то сверяем с D
+			{
+				x = false;
+				if (D)
+					x = alg(D->head, p->symbol); //сверяем с D
+			}
+			if (!x)
+			{
+				E = new list;
+				E->head = E;
+				E->symbol = p->symbol;
+				E->next = NULL;
+			}
+		}
+	}
+
+
+
+	return E;
+}
+
+int main()
+{
+
+	setlocale(LC_ALL, "RUS");
+
+	list *A, *B, *C, *D, *E;
+	A = NULL;
+	B = NULL;
+	C = NULL;
+	D = NULL;
+	E = NULL;
+
+	A = input(A, 0);
+	B = input(B, 1);
+	C = input(C, 2);
+	D = input(D, 3);
+	E = check(A, B, D, E);
+	E = check(C, B, D, E);
+	output(E);
+
+	A = freemem(A);
+	B = freemem(B);
+	C = freemem(C);
+	D = freemem(D);
+	E = freemem(E);
+
+	return 0;
+
 }
