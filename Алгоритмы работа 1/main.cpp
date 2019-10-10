@@ -1,7 +1,7 @@
 ﻿#include <stdio.h>
 #include <iostream>
 #include <locale.h>
-
+//первая часть (1.1) готова
 using namespace std;
 
 struct list
