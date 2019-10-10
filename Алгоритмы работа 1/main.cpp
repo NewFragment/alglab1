@@ -1,7 +1,6 @@
 ﻿#include <stdio.h>
 #include <iostream>
 #include <locale.h>
-//шо-то поменяли
 using namespace std;
 
 struct list
