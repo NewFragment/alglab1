@@ -10,6 +10,13 @@ struct list
 	list* head;
 };
 
+list* input(list* A, int b);
+char strings(int a);
+void incorrect();
+list* check(list*A, list*B, list*C, list*D, list*E);
+int* check_01(list*A, list*B, bool c);
+void output(list *E);
+
 list* freemem(list* A) {
 	if (!A) return NULL;
 	A = A->head;
@@ -102,18 +109,6 @@ list* input(list* A, int b)
 	return A->head;
 }
 
-bool alg(list* d, int a) {
-	for (d; d; d = d->next)
-	{ 
-		if (a == d->symbol)
-		{
-			return true;
-		}
-
-	}
-	return false;
-}
-
 void output(list *E)
 {
 	if (E)
@@ -132,7 +127,7 @@ void output(list *E)
 	system("pause");
 }
 
-int*univers(list*A,list*B,bool c)
+int* check_01(list*A,list*B,bool c)
 {
 	int*u = new int[16];
 	for (int i = 0; i < 16; ++i) u[i] = 0;
