@@ -40,6 +40,12 @@ char strings(int a)
 
 }
 
+void incorrect() {
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	cout << "Некорректный ввод! Повторите" << endl;
+}
+
 list* input(list* A, int b)
 {
 	int *spisok;
@@ -57,26 +63,22 @@ list* input(list* A, int b)
 				return NULL;
 			}
 			else
-			{
-				cin.clear();
-				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				cout << "Некорректный ввод! Повторите" << endl;
-			}
+				incorrect();
+			
 		}
 	} while (true);
 
-	spisok = (int*)malloc(a * sizeof(int));
+	spisok = new int[a];
 
 	for (int i = 0; i < a; i++) { //вводим массив
 		do {
 			cout << endl << "Введите значение для множества '" << strings(b) << "' в 16СС: ";
-			if (!(cin >> hex >> spisok[i]))
+			if ((cin >> hex >> spisok[i]) && spisok[i] < 16)
 			{
-				cin.clear();
-				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				cout << "Некорректный ввод! Повторите" << endl;
+				break;
 			}
-			else break;
+			else
+				incorrect();
 
 		} while (true);
 	}
@@ -99,6 +101,18 @@ list* input(list* A, int b)
 	return A->head;
 }
 
+bool alg(list* d, int a) {
+	for (d; d; d = d->next)
+	{ 
+		if (a == d->symbol)
+		{
+			return true;
+		}
+
+	}
+	return false;
+}
+
 void output(list *E)
 {
 	if (E)
@@ -119,7 +133,7 @@ void output(list *E)
 
 list* check(list* A, list *B, list *D, list *E)
 {
-	bool x, x1, x2;
+	bool x;
 	if (!A) return E;
 
 	for (list *p = A->head; p; p = p->next)
@@ -128,37 +142,19 @@ list* check(list* A, list *B, list *D, list *E)
 
 		if (E)
 		{
-			for (list *d = E->head; d; d = d->next)
-			{ //сверяем A/C с E
-				if (p->symbol == d->symbol)
-				{
-					x = true;
-					break;
-				}
+			
+			x = alg(E->head, p->symbol); //сверяем A с E
 
-			}
 			if (!x && B) //Если в E не нашлось, то
 			{
-				for (list *d = B->head; d; d = d->next)//Сверяем с B
-				{
-					if (p->symbol == d->symbol)
-					{
-						x = true;
-						break;
-					}
-				}
+				
+				x = alg(B->head, p->symbol); //Сверяем с B
+
 				if (x) //Если в B нашлось, то
 				{
 					x = false;
 					if (D)
-						for (list *d = D->head; d; d = d->next) //Сверяем с D
-						{
-							if (p->symbol == d->symbol)
-							{
-								x = true;
-								break;
-							}
-						}
+					x = alg(D->head, p->symbol); //сверяем с D
 				}
 			}
 			if (!x)
@@ -176,27 +172,13 @@ list* check(list* A, list *B, list *D, list *E)
 		{
 			if (B)
 			{
-				for (list *d = B->head; d; d = d->next)//Сверяем с B
-				{
-					if (p->symbol == d->symbol)
-					{
-						x = true;
-						break;
-					}
-				}
+				x = alg(B->head, p->symbol); //Сверяем с B
 			}
 			if (x) //Если есть в B, то сверяем с D
 			{
 				x = false;
 				if (D)
-					for (list *d = D->head; d; d = d->next)
-					{
-						if (p->symbol == d->symbol)
-						{
-							x = true;
-							break;
-						}
-					}
+					x = alg(D->head, p->symbol); //сверяем с D
 			}
 			if (!x)
 			{
