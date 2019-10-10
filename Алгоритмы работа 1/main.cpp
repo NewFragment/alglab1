@@ -63,7 +63,7 @@ list* input(list* A, int b)
 			}
 			else
 				incorrect();
-			
+
 		}
 	} while (true);
 
@@ -102,7 +102,7 @@ list* input(list* A, int b)
 
 bool alg(list* d, int a) {
 	for (d; d; d = d->next)
-	{ 
+	{
 		if (a == d->symbol)
 		{
 			return true;
@@ -141,19 +141,19 @@ list* check(list* A, list *B, list *D, list *E)
 
 		if (E)
 		{
-			
+
 			x = alg(E->head, p->symbol); //сверяем A с E
 
 			if (!x && B) //Если в E не нашлось, то
 			{
-				
+
 				x = alg(B->head, p->symbol); //Сверяем с B
 
 				if (x) //Если в B нашлось, то
 				{
 					x = false;
 					if (D)
-					x = alg(D->head, p->symbol); //сверяем с D
+						x = alg(D->head, p->symbol); //сверяем с D
 				}
 			}
 			if (!x)
