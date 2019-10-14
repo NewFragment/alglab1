@@ -39,7 +39,7 @@ int main()
 
 	start = clock(); //старт счётчика времени
 
-	for(int i = 0; i < 1000000; i++)
+	for(int i = 0; i < 100000; i++)
 	E = check(A, B, C, D);
 
 	end = clock(); //конец счётчика времени
