@@ -153,28 +153,28 @@ int* check_01(list* first, list* second, bool c)
 	for (int i = 0; i < 16; ++i) //создаём нулевой массив
 		u[i] = 0;
 
-	if (c && first && second) { //если на вход принимаются B и D и они оба не пустые, то заполняем универсум (B && D)
-		for (list*a = first->head; a; a = a->next)
-			for (list*b = second->head; b; b = b->next)
-				if (a->symbol == b->symbol) {
-					u[a->symbol] = 1;
-					break;
-				}
-	}
-	else {
+	if (c) { //если на вход принимаются B и D и они оба не пустые, то заполняем универсум (B && D)
 		if (first)
-			for (list*a = first->head; a; a = a->next)	 //заполняем отображение по первому множеству
-				u[a->symbol] = 1;
-
-		if (second)
-			for (list*a = second->head; a; a = a->next)	//и по второму туда же
-				u[a->symbol] = 1;
-
-
-	}
-	if (c) //если на вход принимаются B и D, то отображение инвертируем по условию (~)
-		for (int i = 0; i < 16; ++i)
+			for (list*a = first->head; a; a = a->next)
+				if (second)
+					for (list*b = second->head; b; b = b->next) {
+						if (a->symbol == b->symbol) {
+							u[a->symbol] = 1;
+							break;
+						}
+					}
+				else break;
+		for (int i = 0; i < 16; ++i) //отображение инвертируем по условию (~)
 			u[i] == 1 ? u[i] = 0 : u[i] = 1;
+		return u;
+	}
+	if (first)
+		for (list*a = first->head; a; a = a->next)	 //заполняем отображение по первому множеству
+			u[a->symbol] = 1;
+
+	if (second)
+		for (list*a = second->head; a; a = a->next)	//и по второму туда же
+			u[a->symbol] = 1;
 
 	return u;
 }
