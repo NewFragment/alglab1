@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <locale.h>
+#include <conio.h>
 using namespace std;
 
 struct list
@@ -46,42 +47,41 @@ void incorrect() {
 	cout << "Некорректный ввод! Повторите" << endl;
 }
 
+bool test(char ch, const char *keys, unsigned int size)
+{
+	for (int i = 0; i < size; i++)
+		if (keys[i] == ch) return true;
+	return false;
+}
+
+//--------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------
 list* input(list* A, int b)
 {
+	const char keys[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 	int *spisok;
 	spisok = NULL;
-	int a;
-	cout << endl << "Введите количество элементов множества '" << strings(b) << "' (от 0 до 16):";
-	do
-	{
-		if (cin >> a && a >= 1 && a <= 16) break;
-		else
+	int a = 1;
+	char S;
+	cout << "-------------------------------------------------------------" << endl;
+	cout << "Введите множество " << strings(b) << ": ";
+	while ((S = _getch()) != '\r')//enter
+		if (test(S, keys, 16))
 		{
-			if (a == 0)
-			{
-				cout << "Вы ввели пустое множество '" << strings(b) << "' !" << endl;
-				return NULL;
+			if (!spisok) spisok = new int[1];
+			else {
+				a++;
+				spisok = (int*)realloc(spisok, (a) * sizeof(int));
 			}
+			if (test(S, keys, 10))
+				spisok[a - 1] = S - (int)48;
 			else
-				incorrect();
-			
+				spisok[a - 1] = S - (int)87;
+			cout << S;
 		}
-	} while (true);
 
-	spisok = new int[a];
-
-	for (int i = 0; i < a; i++) { //вводим массив
-		do {
-			cout << endl << "Введите значение для множества '" << strings(b) << "' в 16СС: ";
-			if ((cin >> hex >> spisok[i]) && spisok[i] < 16)
-			{
-				break;
-			}
-			else
-				incorrect();
-
-		} while (true);
-	}
+	cout << endl << "-------------------------------------------------------------" << endl;
 
 	A = new list;
 	A->head = A;
