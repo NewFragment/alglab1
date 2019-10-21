@@ -21,7 +21,6 @@ int* check_01(list*A, list*B, bool c); //Вспомогательная функ
 int* check_02(int* a, int b, int c); //Вспомогательная функция обработки по условию(запись результата в массив)
 void output(list *E); //Функция вывода результата
 list* freemem(list* A, list* B, list* C, list* D, list* E, int a); //Функция очистки памяти
-bool test(char ch, const char *keys, unsigned int size);
 //---------------------------------------------------
 
 int main()
@@ -54,31 +53,36 @@ bool test(char ch, const char *keys, unsigned int size)
 //--------------------------------------------------------------------------------------
 list* input(int b)
 {
-	const char keys[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 	int *spisok;
 	spisok = NULL;
-	int a = 1;
-	char S;
+	int a;
 	cout << "-------------------------------------------------------------" << endl;
-	cout << "Введите множество " << strings(b) << ": ";
-	while ((S = _getch()) != '\r')//enter
-		if (test(S, keys, 16))
+	cout << "Введите количество элементов множества '" << strings(b) << "' (от 0 до 16):";
+	do
+	{
+		if (cin >> a && a >= 1 && a <= 16) break;
+		else
 		{
-			if (!spisok) spisok = new int[1];
-			else {
-				a++;
-				spisok = (int*)realloc(spisok, (a) * sizeof(int));
+			if (a == 0)
+			{
+				cout << "Вы ввели пустое множество '" << strings(b) << "' !" << endl;
+				return NULL;
 			}
-			if(test(S, keys, 10))
-				spisok[a - 1] = S - (int)48;
-			else
-				spisok[a - 1] = S - (int)87;
-			cout << S;
+			incorrect();
 		}
+	} while (true);
 
-	cout << endl << "-------------------------------------------------------------" << endl ;
+	spisok = new int[a]; //выделяем память для массива длинной a
+	for (int i = 0; i < a; i++) { //вводим массив
+		do {
+			cout << endl << "Введите значение для множества '" << strings(b) << "' в 16СС: ";
+			if ((cin >> hex >> spisok[i]) && spisok[i] < 16) break;
+			incorrect();
+		} while (true);
+	}
+	cout << "-------------------------------------------------------------" << endl;
 	system("pause");
-	return arrtolist(spisok, a); //с помощью этой функции переводим массив в список
+	return arrtolist(spisok, a); //с помощью гениальной мега универсальной функции хуячим массив в список и сразу подаём на стол
 }
 //--------------------------------------------------------------------------------------
 
