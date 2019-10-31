@@ -35,6 +35,10 @@ int main()
 	C = input(2);
 	D = input(3);
 	E = check(A, B, C, D);
+	output(A, 0);
+	output(B, 1);
+	output(C, 2);
+	output(D, 3);
 	output(E, 4);
 
 	freemem(A, B, C, D, E, 0);
@@ -189,14 +193,14 @@ void output(list *A, int b)
 	if (A)
 	{
 		if (b == 4) cout << endl << endl;
-		cout << "Множество '" << strings(b) << "': { ";
+		cout << "Множество '" << strings(b) << "': [ ";
 		for (list *p = A->head; p; p = p->next)
 		{
 			if (p->next)
-				cout << hex << p->symbol << "; ";
+				cout << hex << p->symbol << ", ";
 			else cout << hex << p->symbol << " ";
 		}
-		cout << "}" << endl;
+		cout << "]" << endl;
 	}
 	else cout << "Множество '" << strings(b) << "' - пустое" << endl;
 	if (b == 4) cout << endl << endl;
