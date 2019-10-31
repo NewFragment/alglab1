@@ -38,12 +38,16 @@ int main()
 	D = input(3);
 
 	start = clock(); //старт счётчика времени
-	for(int i = 0; i < 1000; i++)
+	for(int i = 0; i < 10000; i++)
 	E = check(A, B, C, D);
 
 	end = clock(); //конец счётчика времени
 	t = end - start ; //рассчёт точного времени в секундах
-	cout << "Затраченное время на вычисление: " << t / CLOCKS_PER_SEC << " секунд" << endl;
+	cout << "Затраченное время на вычисление: " << t / CLOCKS_PER_SEC << " секунд" << endl << endl;
+	output(A, 0);
+	output(B, 1);
+	output(C, 2);
+	output(D, 3);
 	output(E, 4);
 	freemem(A, B, C, D, E, 0);
 	system("pause");
@@ -199,14 +203,14 @@ void output(list *A, int b)
 	if (A)
 	{
 		if (b == 4) cout << endl << endl;
-		cout << "Множество '" << strings(b) << "': { ";
+		cout << "Множество '" << strings(b) << "': [ ";
 		for (list *p = A->head; p; p = p->next)
 		{
 			if (p->next)
-				cout << hex << p->symbol << "; ";
+				cout << hex << p->symbol << ", ";
 			else cout << hex << p->symbol << " ";
 		}
-		cout << "}" << endl;
+		cout << "]" << endl;
 	}
 	else cout << "Множество '" << strings(b) << "' - пустое" << endl;
 	if (b == 4) cout << endl << endl;
