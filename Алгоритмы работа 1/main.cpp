@@ -36,6 +36,7 @@ char strings(int a)
 	case 1: {return 'B'; }
 	case 2: {return 'C'; }
 	case 3: {return 'D'; }
+	case 4: {return 'E'; }
 	}
 
 }
@@ -79,7 +80,6 @@ list* input(int b)
 		}
 
 	cout << endl << "-------------------------------------------------------------" << endl;
-	system("pause");
 
 	list* A = new list;
 	A->head = A;
@@ -87,9 +87,11 @@ list* input(int b)
 	int i = 0;
 	do { //заполняем список из массива
 		A->symbol = spisok[i];
-		A->next = new list;
-		A->next->head = A->head;
-		A = A->next;
+		if (i + 1 != a) {
+			A->next = new list;
+			A->next->head = A->head;
+			A = A->next;
+		}
 		i++;
 	} while (i != a);
 	delete spisok;
@@ -111,22 +113,22 @@ bool alg(list* d, int a) {
 	return false;
 }
 
-void output(list *E)
+void output(list *A, int b)
 {
-	if (E)
+	if (A)
 	{
-		cout << "Сформированное множество E: { ";
-		for (list *p = E->head; p; p = p->next)
+		if (b == 4) cout << endl << endl;
+		cout << "Множество '" << strings(b) << "': [ ";
+		for (list *p = A->head; p; p = p->next)
 		{
 			if (p->next)
-				cout << hex << p->symbol << "; ";
+				cout << hex << p->symbol << ", ";
 			else cout << hex << p->symbol << " ";
 		}
-		cout << "}" << endl;
+		cout << "]" << endl;
 	}
-	else cout << "Множество E - пустое" << endl;
-
-	system("pause");
+	else cout << "Множество '" << strings(b) << "' - пустое" << endl;
+	if (b == 4) cout << endl << endl;
 }
 
 list* check(list* A, list *B, list *D, list *E)
@@ -199,14 +201,18 @@ int main()
 	setlocale(LC_ALL, "RUS");
 
 	list *A, *B, *C, *D, *E;
+	E = NULL;
 	A = input(0);
 	B = input(1);
 	C = input(2);
 	D = input(3);
-	E = check(A, B, D, E);
 	E = check(C, B, D, E);
-	output(E);
-
+	output(A, 0);
+	output(B, 1);
+	output(C, 2);
+	output(D, 3);
+	output(E, 4);
+	system("pause");
 	A = freemem(A);
 	B = freemem(B);
 	C = freemem(C);
