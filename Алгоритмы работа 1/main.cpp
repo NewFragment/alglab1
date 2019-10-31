@@ -54,7 +54,7 @@ bool test(char ch, const char *keys, unsigned int size)
 }
 
 //--------------------------------------------------------------------------------------
-list* input(list* A, int b)
+list* input(int b)
 {
 	const char keys[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 	int *spisok;
@@ -81,7 +81,7 @@ list* input(list* A, int b)
 	cout << endl << "-------------------------------------------------------------" << endl;
 	system("pause");
 
-	A = new list;
+	list* A = new list;
 	A->head = A;
 
 	int i = 0;
@@ -199,16 +199,10 @@ int main()
 	setlocale(LC_ALL, "RUS");
 
 	list *A, *B, *C, *D, *E;
-	A = NULL;
-	B = NULL;
-	C = NULL;
-	D = NULL;
-	E = NULL;
-
-	A = input(A, 0);
-	B = input(B, 1);
-	C = input(C, 2);
-	D = input(D, 3);
+	A = input(0);
+	B = input(1);
+	C = input(2);
+	D = input(3);
 	E = check(A, B, D, E);
 	E = check(C, B, D, E);
 	output(E);
