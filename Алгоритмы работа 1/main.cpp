@@ -210,7 +210,13 @@ void output(list *A, int b)
 				cout << hex << p->symbol << ", ";
 			else cout << hex << p->symbol << " ";
 		}
-		cout << "]" << endl;
+		cout << "] ";
+		int B[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		for (list *p = A->head; p; p = p->next)
+			B[p->symbol] = 1;
+		for (int i = 0; i < 16; i++)
+			cout << B[i];
+		cout << endl;
 	}
 	else cout << "Множество '" << strings(b) << "' - пустое" << endl;
 	if (b == 4) cout << endl << endl;
