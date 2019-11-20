@@ -3,6 +3,7 @@
 #include <iostream>
 #include <locale.h>
 #include <conio.h>
+#include <time.h>
 using namespace std;
 
 struct list
@@ -203,6 +204,9 @@ list* check(list* A, list *B, list *D, list *E)
 
 int main()
 {
+	clock_t start, end;
+	float t;
+	srand(time(nullptr)); //очистка псевдорандома, чтобы при каждой компиляции выдавало разный рандом
 
 	setlocale(LC_ALL, "RUS");
 
@@ -217,8 +221,12 @@ int main()
 	B = input(B, 1);
 	C = input(C, 2);
 	D = input(D, 3);
+	start = clock(); //старт счётчика времени
 	E = check(A, B, D, E);
 	E = check(C, B, D, E);
+	end = clock(); //конец счётчика времени
+	t = end - start; //рассчёт точного времени в секундах
+	cout << "Затраченное время на вычисление: " << t / CLOCKS_PER_SEC << " секунд" << endl;
 	output(E);
 
 	A = freemem(A);
