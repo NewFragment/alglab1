@@ -42,7 +42,7 @@ int main()
 	t = end - start; //рассчёт точного времени в секундах
 	cout << "Затраченное время на вычисление: " << t / CLOCKS_PER_SEC << " секунд" << endl;
 	output(E, 4);
-
+	system("pause");
 	freemem(A, B, C, D, E, 0);
 
 	return 0;
