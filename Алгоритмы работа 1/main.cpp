@@ -37,6 +37,7 @@ int main()
 	C = input(2);
 	D = input(3);
 	start = clock(); //старт счётчика времени
+	for (int i = 0; i < 100000; i++)
 	E = check(A, B, C, D);
 	end = clock(); //конец счётчика времени
 	t = end - start; //рассчёт точного времени в секундах
