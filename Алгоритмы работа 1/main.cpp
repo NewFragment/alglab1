@@ -38,6 +38,7 @@ char strings(int a)
 	case 1: {return 'B'; }
 	case 2: {return 'C'; }
 	case 3: {return 'D'; }
+   case 4: {return 'E'; }
 	}
 
 }
@@ -120,22 +121,22 @@ bool alg(list* d, int a) {
 	return false;
 }
 
-void output(list *E)
+void output(list *A, int b)
 {
-	if (E)
-	{
-		cout << "Сформированное множество E: { ";
-		for (list *p = E->head; p; p = p->next)
-		{
-			if (p->next)
-				cout << hex << p->symbol << "; ";
-			else cout << hex << p->symbol << " ";
-		}
-		cout << "}" << endl;
-	}
-	else cout << "Множество E - пустое" << endl;
-
-	system("pause");
+  if (A)
+  {
+    if (b == 4) cout << endl << endl;
+    cout << "Множество '" << strings(b) << "': [ ";
+    for (list *p = A->head; p->next; p = p->next)
+    {
+      if (p->next->next)
+        cout << hex << p->symbol << ", ";
+      else cout << hex << p->symbol << " ";
+    }
+    cout << "]" << endl;
+  }
+  else cout << "Множество '" << strings(b) << "' - пустое" << endl;
+  if (b == 4) cout << endl << endl;
 }
 
 list* check(list* A, list *B, list *D, list *E)
@@ -198,7 +199,7 @@ list* check(list* A, list *B, list *D, list *E)
 	}
 
 
-
+   
 	return E;
 }
 
@@ -211,11 +212,13 @@ int main()
 	setlocale(LC_ALL, "RUS");
 
 	list *A, *B, *C, *D, *E;
+   
 	A = NULL;
 	B = NULL;
 	C = NULL;
 	D = NULL;
 	E = NULL;
+   
 
 	A = input(A, 0);
 	B = input(B, 1);
@@ -227,8 +230,12 @@ int main()
 	end = clock(); //конец счётчика времени
 	t = end - start; //рассчёт точного времени в секундах
 	cout << "Затраченное время на вычисление: " << t / CLOCKS_PER_SEC << " секунд" << endl;
-	output(E);
-
+   output(A, 0);
+   output(B, 1);
+   output(C, 2);
+   output(D, 3);
+	output(E, 4);
+   system("pause");
 	A = freemem(A);
 	B = freemem(B);
 	C = freemem(C);
