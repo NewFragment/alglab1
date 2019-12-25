@@ -37,10 +37,15 @@ int main()
 	C = input(2);
 	D = input(3);
 	start = clock(); //старт счётчика времени
+  for(int i = 0; i < 10000; i++)
 	E = check(A, B, C, D);
 	end = clock(); //конец счётчика времени
 	t = end - start; //рассчёт точного времени в секундах
 	cout << "Затраченное время на вычисление: " << t / CLOCKS_PER_SEC << " секунд" << endl;
+   output(A, 0);
+   output(B, 1);
+   output(C, 2);
+   output(D, 3);
 	output(E, 4);
 	system("pause");
 	freemem(A, B, C, D, E, 0);
